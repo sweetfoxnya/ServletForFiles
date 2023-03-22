@@ -1,47 +1,24 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="java.util.Date" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
-<head>
+    <body>
+        <div class="container">
+            <div class="regbox box">
+                <h1> Log in to your account</h1>
+                <form action="/" method="post">
+                <p>Username</p>
+                <input type="text" placeholder="Username" name="name" required>
+                <p>Password</p>
+                <input type="password" placeholder="Password" name="password" required>
+                <p> <input type = "submit" value = "Log"> </p>
+                </form>
+                <form name = "form1" method = "post" action = "/files">
 
-<title>Файлы</title>
-Today's date:
-<%=(new java.util.Date()).toLocaleString()%>
-</head>
-<h1>${path}</h1>
-<body>
-
-    <table>
-         <thead>
-             <tr>
-                <th>Файл</th>
-                <th>Размер</th>
-                <th>Дата</th>
-                <th></th>
-             </tr>
-         </thead>
-
-            <form method="get" action="/files">
-            <button name="btn" type="submit" value=" "> Вверх </button>
-            </form>
-            <c:forEach var= "item" items= "${files}">
-                <tr>
-                    <td>
-                        <form method="get" action="/files">
-                        <button name="btn" type="submit" value="${item.getAbsolutePath()}">${item.getName()}</button>
-                        </form>
-                    </td>
-                    <td>${item.length()}</td>
-                    <td>${Date(item.lastModified())}</td>
-                    <td>
-                        <c:if test="${item.isFile()}">
-                            <form method="post" action="/download">
-                                <button name="btn" type="submit" value="${item.getAbsolutePath()}"> Скачать </button>
-                            </form>
-                        </c:if>
-                    </td>
-                </tr>
-            </c:forEach>
-    </table>
-</body>
+                 <form name = "form1" method = "get" action = "/registration">
+                 <input type = "submit" value = "Register">
+                 </form>
+                </p>
+            </div>
+        </div>
+    </body>
 </html>

@@ -7,10 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 @WebServlet("/download/*")
 public class DownloadServlet extends HttpServlet{
@@ -18,6 +15,7 @@ public class DownloadServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        req.setCharacterEncoding("utf8");
         File file = new File(req.getParameterValues("btn")[0]);
         resp.setContentType("application/octet-stream");
         resp.setHeader("Content-Disposition","attachment;filename="+file.getName());
