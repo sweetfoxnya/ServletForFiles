@@ -1,5 +1,7 @@
 package servlet;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +35,14 @@ public class RegistrationServlet extends HttpServlet {
         UserMethods.addNewUser(user);
         UserMethods.addSession(session.toString(), user);
 
-        resp.sendRedirect("/files");
+        if (req.getParameterValues("btnReg") != null ) {
+            String path = "/files" + "?path=C:\\students" + name;
+            ServletContext servletContext = getServletContext();
+            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
+            requestDispatcher.forward(req, resp);
+        }
+
+        req.getRequestDispatcher("registration.jsp").forward(req, resp);
 
     }
 

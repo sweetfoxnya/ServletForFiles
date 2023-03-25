@@ -12,16 +12,18 @@ Today's date:
 <form name = "form1" method = "get" action = "/logout">
            <input type = "submit" value = "Logout">
 </form>
-
+<form method="post" action="/files">
+            <button name="btnExit" type="submit" value=" "> Up </button>
+            </form>
 <h1>${path}</h1>
 <body>
 
     <table>
          <thead>
              <tr>
-                <th>Файл</th>
-                <th>Размер</th>
-                <th>Дата</th>
+                <th>Files</th>
+                <th>Size</th>
+                <th>Date</th>
                 <th></th>
              </tr>
          </thead>
@@ -30,7 +32,7 @@ Today's date:
                 <tr>
                     <td>
                         <form method="post" action="/files">
-                        <button name="btn" type="submit" value="${item.getAbsolutePath()}">${item.getName()}</button>
+                        <button name="btnName" type="submit" value="${item.getAbsolutePath()}">${item.getName()}</button>
                         </form>
                     </td>
                     <td>${item.length()}</td>
@@ -38,7 +40,7 @@ Today's date:
                     <td>
                         <c:if test="${item.isFile()}">
                             <form method="post" action="/download">
-                                <button name="btn" type="submit" value="${item.getAbsolutePath()}"> Скачать </button>
+                                <button name="btnDown" type="submit" value="${item.getAbsolutePath()}"> Download </button>
                             </form>
                         </c:if>
                     </td>

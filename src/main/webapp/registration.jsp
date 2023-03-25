@@ -16,7 +16,7 @@ Useremail</p>
                    <p>
 Password</p>
 <input type="password" placeholder="Password" name="password" required>
-<p> <input type="submit" value="Register" </p>
+<p> <button name="btnReg" input type="submit" value="Register"> Register </button> </p>
 </form>
 
 </div>
