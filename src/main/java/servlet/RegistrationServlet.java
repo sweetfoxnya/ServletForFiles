@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.*;
 
 
 @WebServlet("/registration")
@@ -36,13 +37,37 @@ public class RegistrationServlet extends HttpServlet {
         UserMethods.addSession(session.toString(), user);
 
         if (req.getParameterValues("btnReg") != null ) {
+            try {
+                UserBD regUser = new UserBD(ConnectionPro.getConnection());
+                if (regUser.saveUser(user)) {
+                    resp.sendRedirect("login.jsp");
+                } else {
+                    resp.sendRedirect("registration.jsp");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+      /*  try {
+            UserBD regUser = new UserBD(ConnectionPro.getConnection());
+            if (regUser.saveUser(user)) {
+                    resp.sendRedirect("login.jsp");
+            } else {
+                resp.sendRedirect("registration.jsp");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }*/
+
+       /*
+        if (req.getParameterValues("btnReg") != null ) {
             String path = "/files" + "?path=C:\\students" + name;
             ServletContext servletContext = getServletContext();
             RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
             requestDispatcher.forward(req, resp);
-        }
+        }*/
 
-        req.getRequestDispatcher("registration.jsp").forward(req, resp);
+
 
     }
 

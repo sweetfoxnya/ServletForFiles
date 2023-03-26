@@ -8,12 +8,10 @@ public class UserBD {
         this.con = con;
     }
 
-    //for register user
     public boolean saveUser(User user){
         boolean set = false;
         try{
-            //Insert register data to database
-            String query = "insert into user(name,email,password) values(?,?,?)";
+            String query = "insert into user (Name, Email, Password) values (?, ?, ?)";
 
             PreparedStatement pt = this.con.prepareStatement(query);
             pt.setString(1, user.getName());

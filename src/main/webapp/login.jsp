@@ -17,7 +17,7 @@
                             <button name="btnLogin" type="submit">
                                 Login
                             </button>
-                        </form>
+                </form>
                 </form>
 
                 <form name = "form1" method = "get" action = "/registration">

@@ -4,7 +4,7 @@
 <html>
 <head>
 
-<title>Файлы</title>
+<title>Files</title>
 Today's date:
 <%=(new java.util.Date()).toLocaleString()%>
 </head>
