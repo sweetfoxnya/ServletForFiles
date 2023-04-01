@@ -9,7 +9,7 @@ public class UserBD {
     }
 
     public boolean saveUser(User user){
-        boolean set = false;
+        boolean ok = false;
         try{
             String query = "insert into user (Name, Email, Password) values (?, ?, ?)";
 
@@ -18,11 +18,24 @@ public class UserBD {
             pt.setString(2, user.getEmail());
             pt.setString(3, user.getPassword());
 
+
             pt.executeUpdate();
-            set = true;
+            return true;
+
         }catch(Exception e){
             e.printStackTrace();
         }
-        return set;
+        return false;
+    }
+
+    public User getUser(String name) throws SQLException {
+
+        Statement statement = con.createStatement();
+        statement.execute("select * from user where Name = '" + name + "'");
+        ResultSet resultSet = statement.getResultSet();
+        if (resultSet.next()) {
+            return new User(resultSet.getString("Name"),resultSet.getString("Email"), resultSet.getString("Password"));
+        }
+        return null;
     }
 }

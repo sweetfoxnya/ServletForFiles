@@ -44,8 +44,6 @@ public class FilesServlet extends HttpServlet {
             path = file.getPath();
         }
 
-        HttpSession session = req.getSession();
-
         req.setAttribute("path", path);
 
         if(file.isDirectory()){

@@ -12,12 +12,13 @@
 
                 <p>Password</p>
                 <input type="password" placeholder="Password" name="password" required>
-
+                <p>
                 <form method="POST" action="/login">
                             <button name="btnLogin" type="submit">
                                 Login
                             </button>
                 </form>
+                </p>
                 </form>
 
                 <form name = "form1" method = "get" action = "/registration">

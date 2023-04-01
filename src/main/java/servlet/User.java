@@ -1,10 +1,21 @@
 package servlet;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.NaturalId;
 
+@Entity
+@Table(name = "user")
 public class User {
-    int id;
-    String name;
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @NaturalId
+    @Column(name = "Name")
+    private String name;
+    @Column(name = "Email")
     String email;
+    @Column(name = "Password")
     String password;
 
     public User() {

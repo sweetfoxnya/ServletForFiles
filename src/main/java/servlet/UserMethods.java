@@ -1,22 +1,30 @@
 package servlet;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class UserMethods {
-
-    private static final Map<String, User> nameToUser  = new HashMap<>();
     private static final Map<String, User> sessionIdToUser = new HashMap<>();
+    private static final UserBD userBD;
 
-
-    private UserMethods() {}
-
-    public static void addNewUser(User user) {
-        nameToUser.put(user.getName(), user);
+    static {
+        try {
+            userBD = new UserBD(ConnectionPro.getConnection());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static User getUserByName(String name) {
-        return nameToUser.get(name);
+
+    public static boolean addNewUser(User user) {
+        return
+        userBD.saveUser(user);
+
+    }
+
+    public static User getUserByName(String name) throws SQLException {
+        return userBD.getUser(name);
     }
 
     public static User getUserBySessionId(String sessionId) {
@@ -30,4 +38,5 @@ public class UserMethods {
     public static void deleteSession(String sessionId) {
         sessionIdToUser.remove(sessionId);
     }
+
 }

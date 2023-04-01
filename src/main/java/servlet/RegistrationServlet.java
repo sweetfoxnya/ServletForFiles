@@ -33,41 +33,15 @@ public class RegistrationServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         User user = new User(name,email,password);
-        UserMethods.addNewUser(user);
         UserMethods.addSession(session.toString(), user);
 
         if (req.getParameterValues("btnReg") != null ) {
-            try {
-                UserBD regUser = new UserBD(ConnectionPro.getConnection());
-                if (regUser.saveUser(user)) {
+                if (UserMethods.addNewUser(user)) {
                     resp.sendRedirect("login.jsp");
                 } else {
                     resp.sendRedirect("registration.jsp");
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
-      /*  try {
-            UserBD regUser = new UserBD(ConnectionPro.getConnection());
-            if (regUser.saveUser(user)) {
-                    resp.sendRedirect("login.jsp");
-            } else {
-                resp.sendRedirect("registration.jsp");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-
-       /*
-        if (req.getParameterValues("btnReg") != null ) {
-            String path = "/files" + "?path=C:\\students" + name;
-            ServletContext servletContext = getServletContext();
-            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
-            requestDispatcher.forward(req, resp);
-        }*/
-
-
 
     }
 
