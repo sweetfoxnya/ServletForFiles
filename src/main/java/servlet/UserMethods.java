@@ -1,29 +1,26 @@
 package servlet;
 
+
+import org.hibernate.Session;
+
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static servlet.HibernateUtil.sessionFactory;
+
 public class UserMethods {
     private static final Map<String, User> sessionIdToUser = new HashMap<>();
-    private static final UserBD userBD;
-
-    static {
-        try {
-            userBD = new UserBD(ConnectionPro.getConnection());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 
     public static boolean addNewUser(User user) {
+        Session session = sessionFactory.openSession();
+        UserBD userBD = new UserBD(session);
         return
         userBD.saveUser(user);
-
     }
-
     public static User getUserByName(String name) throws SQLException {
+        Session session = sessionFactory.openSession();
+        UserBD userBD = new UserBD(session);
         return userBD.getUser(name);
     }
 
@@ -35,8 +32,6 @@ public class UserMethods {
         sessionIdToUser.put(sessionId, userProfile);
     }
 
-    public static void deleteSession(String sessionId) {
-        sessionIdToUser.remove(sessionId);
-    }
+
 
 }

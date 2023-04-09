@@ -1,41 +1,86 @@
 package servlet;
-import java.sql.*;
+
+import org.hibernate.Criteria;
+import org.hibernate.PersistentObjectException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+
 
 public class UserBD {
-    Connection con ;
 
-    public UserBD(Connection con) {
-        this.con = con;
-    }
+    private Session session;
+
+    public UserBD(Session session) {this.session = session;};
 
     public boolean saveUser(User user){
-        boolean ok = false;
+        boolean save = true;
+        session = HibernateUtil.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
         try{
-            String query = "insert into user (Name, Email, Password) values (?, ?, ?)";
-
-            PreparedStatement pt = this.con.prepareStatement(query);
-            pt.setString(1, user.getName());
-            pt.setString(2, user.getEmail());
-            pt.setString(3, user.getPassword());
-
-
-            pt.executeUpdate();
-            return true;
-
-        }catch(Exception e){
-            e.printStackTrace();
+            session.persist(user);
+        }catch (PersistentObjectException e){
+            save = false;
         }
-        return false;
+
+        transaction.commit();
+        session.close();
+
+        return save;
     }
 
-    public User getUser(String name) throws SQLException {
+    public User getUser(String name) {
 
-        Statement statement = con.createStatement();
-        statement.execute("select * from user where Name = '" + name + "'");
-        ResultSet resultSet = statement.getResultSet();
-        if (resultSet.next()) {
-            return new User(resultSet.getString("Name"),resultSet.getString("Email"), resultSet.getString("Password"));
-        }
-        return null;
+        session = HibernateUtil.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        User user = getBy("name",name);
+
+        session.close();
+        return user;
+
     }
+
+    public User getBy(String variable, String value){
+        Criteria criteria = session.createCriteria(User.class);
+        return (User) criteria.add(Restrictions.eq(variable, value)).uniqueResult();
+    }
+
+    public static User findById(int id) {
+        return (User)HibernateUtil.sessionFactory.openSession().get(User.class, id);
+    }
+
+    public boolean delete(User user) {
+
+        boolean delete = true;
+        Session session = HibernateUtil.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        try{
+            session.delete(user);
+        }catch (PersistentObjectException e){
+            delete = false;
+        }
+
+        transaction.commit();
+        session.close();
+        return delete;
+    }
+
+    public boolean update(User user) {
+
+        boolean update = true;
+        Session session = HibernateUtil.sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
+        try{
+            session.merge(user);
+        }catch (PersistentObjectException e){
+            update = false;
+        }
+        tx1.commit();
+        session.close();
+        return update;
+    }
+
 }

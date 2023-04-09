@@ -1,16 +1,15 @@
 package servlet;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user")
 public class User {
     @Id
-    @Column(name = "ID")
+    @Column(name = "UserID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NaturalId
     @Column(name = "Name")
     private String name;
     @Column(name = "Email")
@@ -70,8 +69,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 
 }
 

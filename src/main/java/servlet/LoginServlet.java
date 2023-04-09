@@ -1,7 +1,5 @@
 package servlet;
 
-import servlet.UserMethods;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -29,7 +27,7 @@ public class LoginServlet extends HttpServlet {
         String name = req.getParameter("name");
         String password = req.getParameter("password");
 
-        User user = null;
+        User user ;
         try {
             user = UserMethods.getUserByName(name);
         } catch (SQLException e) {
