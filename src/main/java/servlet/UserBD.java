@@ -35,14 +35,15 @@ public class UserBD {
         session = HibernateUtil.sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-        User user = getBy("name",name);
+        User user = getByName("name",name);
 
+        transaction.commit();
         session.close();
         return user;
 
     }
 
-    public User getBy(String variable, String value){
+    public User getByName(String variable, String value){
         Criteria criteria = session.createCriteria(User.class);
         return (User) criteria.add(Restrictions.eq(variable, value)).uniqueResult();
     }
