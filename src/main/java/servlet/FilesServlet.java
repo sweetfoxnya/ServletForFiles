@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet("/files")
 public class FilesServlet extends HttpServlet {
 
-    File  file = new File("C:/students");
+    File  file = getUserDir();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -26,12 +26,20 @@ public class FilesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+
+        HttpSession session = req.getSession();
+
+
+        if(UserMethods.getUserBySessionId(session.getId()) == null){return;}
+
+        String name = UserMethods.getUserBySessionId(session.getId()).getName();
+
         String path = null;
-        String name = req.getParameter("name");
+       // String name = req.getParameter("name");
 
         if (req.getParameterValues("btnExit") != null ) {
             File newfile = file.getParentFile();
-            File parent = new File("C:\\students");
+            File parent = getUserDir();
             if(!newfile.getPath().equals(parent.getPath())){
                 file = file.getParentFile();
                 path = file.getPath();
@@ -40,11 +48,9 @@ public class FilesServlet extends HttpServlet {
             file = new File(req.getParameterValues("btnName")[0]);
             path = file.getPath();
         } else {
-            file = new File("C:\\students\\" + name);
+            file = new File(getUserDir().getPath() + "\\" + name);
             path = file.getPath();
         }
-
-        HttpSession session = req.getSession();
 
         String parentDirectory = file.getParent();
 
@@ -72,5 +78,13 @@ public class FilesServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.service(req, resp);
+    }
+
+    private File getUserDir(){
+        File file = new File(File.listRoots()[0] + "\\students");
+        if(!file.exists()) {
+            file.mkdirs();
+        }
+        return file;
     }
 }

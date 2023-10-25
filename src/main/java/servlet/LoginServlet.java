@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
             resp.getWriter().write("Incorrect password");
         }
 
-        UserMethods.addSession(session.toString(),user);
+        UserMethods.addSession(session.getId(),user);
 
         if (req.getParameterValues("btnLogin") != null ) {
             String path = "/files" + "?path=C:\\students" + name;
